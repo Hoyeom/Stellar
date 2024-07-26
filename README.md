@@ -20,7 +20,7 @@ UPM Package
 ---
 ### Install via git URL
 
-Requires a version of unity that supports path query parameter for git packages (Unity >= 2022.3.20f1, Unity >= 2022.3.20f1). You can add `https://github.com/Hoyeom/StellarArchive.git?path=src/Stellar/Assets/Plugins/Stellar` to Package Manager
+Requires a version of unity that supports path query parameter for git packages (Unity >= 2022.3.20f1, Unity >= 2022.3.20f1). You can add `https://github.com/Hoyeom/Stellar.git?path=src/Stellar/Assets/Plugins/Stellar` to Package Manager
 
 License
 ---
