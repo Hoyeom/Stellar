@@ -1,6 +1,6 @@
 {
-  "name": "com.stellar-archive.core",
-  "displayName": "StellarArchive",
+  "name": "com.stellar.core",
+  "displayName": "Stellar",
   "author": { "name": "Hoyeom", "url": "https://github.com/Hoyeom" },
   "version": "0.0.1",
   "unity": "2022.3",
@@ -8,16 +8,9 @@
   "keywords": [ ],
   "license": "MIT",
   "category": "Framework",
-  "samples": [
-    {
-      "displayName": "Sample Loading",
-      "description": "Sample scenes that demonstrate the usage of the Loading.",
-      "path": "Samples/Sample Loading"
-    }
-  ],
   "dependencies": {},
   "repository": {
-    "url": "https://github.com/Hoyeom/StellarArchive.git",
+    "url": "https://github.com/Hoyeom/Stellar.git",
     "type": "git"
   }
 }
