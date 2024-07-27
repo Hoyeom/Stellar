@@ -12,7 +12,7 @@ public class DemoTest : MonoBehaviour
     
     private void Awake()
     {
-        _classStateMachine = new ClassStateMachine<DemoTest>(this);
+        _classStateMachine = new ClassStateMachine<DemoTest>(this, new IdleState());
     }
 
     void Update()

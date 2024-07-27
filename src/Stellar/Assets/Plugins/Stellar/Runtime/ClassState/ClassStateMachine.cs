@@ -8,10 +8,10 @@ namespace Plugins.Stellar.Runtime
         private readonly TEntity _entity;
         private IClassState<TEntity> _currentState;
 
-        public ClassStateMachine(in TEntity entity)
+        public ClassStateMachine(in TEntity entity, IClassState<TEntity> classState)
         {
             _entity = entity;
-            _currentState = new NoneState<TEntity>();
+            _currentState = classState;
         }
 
         public void Enter<TState>() where TState : IClassState<TEntity>, new()
