@@ -8,14 +8,17 @@ namespace Stellar.Runtime.Helper
     {
         public static string ToColorString([NotNull] string text, Color color)
         {
-            StringBuilder sb = new StringBuilder();
-            sb.Append("<color=");
-            sb.Append('#');
+            int estimatedLength = text.Length + 16 + 9;
+            StringBuilder sb = new StringBuilder(estimatedLength);
+    
+            sb.Append("<color=#");
             sb.Append(ColorUtility.ToHtmlStringRGBA(color));
             sb.Append('>');
             sb.Append(text);
             sb.Append("</color>");
+    
             return sb.ToString();
         }
+
     }
 }
