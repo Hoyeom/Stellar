@@ -7,21 +7,50 @@ using UnityEngine;
 
 public class DemoTest : MonoBehaviour
 {
+    public enum Trigger
+    {
+        IdleCommand,
+        MoveCommand,
+    }
+    
     private ClassStateMachine<DemoTest> _classStateMachine;
     private readonly HashSet<WeakReference> _weakReferences = new HashSet<WeakReference>();
-    
+    private Vector2 _input;
+    private int _collectCount;
+
     private void Awake()
     {
         _classStateMachine = new ClassStateMachine<DemoTest>(this, new IdleState());
+
+#if true
+        GUIUtility.systemCopyBuffer = _classStateMachine.ToString();
+#endif
     }
 
+    
     void Update()
     {
         _classStateMachine.Update();
-        if (Input.GetKeyDown(KeyCode.Space))
+
+        var input  = Vector2.right * Input.GetAxisRaw("Horizontal") + Vector2.up * Input.GetAxisRaw("Vertical");
+        
+        if (Input.GetButton("Horizontal") || Input.GetButton("Vertical"))
         {
-            _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
-            _classStateMachine.Enter<IdleState>();
+            if (_input != input)
+            {
+                _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
+                _classStateMachine.Enter<MoveState>();
+                _input = input;
+            }
+        }
+        else
+        {
+            if (_input != input)
+            {
+                _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
+                _classStateMachine.Enter<IdleState>();
+                _input = input;
+            }
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -39,7 +68,11 @@ public class DemoTest : MonoBehaviour
                 collectCount++;
             }
         }
-        
-        Debug.Log($"({collectCount}/{_weakReferences.Count})");
+
+        if (_collectCount != collectCount)
+        {
+            Debug.Log($"({collectCount}/{_weakReferences.Count})");
+            _collectCount = collectCount;
+        }
     }
 }
