@@ -1,31 +1,51 @@
+using System;
+using System.Collections.Generic;
+
 namespace Plugins.Stellar.Runtime
 {
     public class ClassStateMachine<TEntity>
     {
         private readonly TEntity _entity;
-        public IClassState<TEntity> CurrentState { get; private set; }
+        private IClassState<TEntity> _currentState;
 
         public ClassStateMachine(in TEntity entity)
         {
             _entity = entity;
-            CurrentState = new NoneState<TEntity>();
+            _currentState = new NoneState<TEntity>();
         }
-        
+
         public void Enter<TState>() where TState : IClassState<TEntity>, new()
         {
-            CurrentState?.ExitState();
-            CurrentState = new TState();
-            CurrentState.EnterState(_entity);
+            _currentState?.ExitState();
+            _currentState = new TState();
+            _currentState.EnterState(_entity);
+        }
+
+        private void Enter(Type type)
+        {
+            if (!typeof(IClassState<TEntity>).IsAssignableFrom(type))
+            {
+                throw new ArgumentException($"{type.Name} does not implement IClassState<{typeof(TEntity).Name}>");
+            }
+
+            _currentState?.ExitState();
+            _currentState = (IClassState<TEntity>)Activator.CreateInstance(type);
+            _currentState.EnterState(_entity);
         }
 
         public void Update()
         {
-            CurrentState.UpdateState();
+            _currentState.UpdateState();
         }
-        
+
         public void FixedUpdate()
         {
-            CurrentState.FixedUpdateState();
+            _currentState.FixedUpdateState();
+        }
+
+        public WeakReference GetWeakReferenceCurrentState()
+        {
+            return new WeakReference(_currentState);
         }
     }
 }

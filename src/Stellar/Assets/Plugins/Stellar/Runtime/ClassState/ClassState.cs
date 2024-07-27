@@ -35,17 +35,4 @@ namespace Plugins.Stellar.Runtime
         public virtual void Update() { }
         public virtual void FixedUpdate() { }
     }
-
-    public class IdleState : ClassState<MonoBehaviour>
-    {
-        public override void Enter()
-        {
-            Debug.Log("Enter Idle");
-        }
-
-        public override void Exit()
-        {
-            Debug.Log("Exit Idle");
-        }
-    }
 }

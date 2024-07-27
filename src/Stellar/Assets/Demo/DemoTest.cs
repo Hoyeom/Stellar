@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Demo;
 using Plugins.Stellar.Runtime;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public class DemoTest : MonoBehaviour
         _classStateMachine.Update();
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            _weakReferences.Add(new WeakReference(_classStateMachine.CurrentState));
+            _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
             _classStateMachine.Enter<IdleState>();
         }
 
