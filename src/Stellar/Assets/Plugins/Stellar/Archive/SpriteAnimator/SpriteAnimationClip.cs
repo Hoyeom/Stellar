@@ -8,7 +8,7 @@ namespace Stellar.Runtime
     public class SpriteAnimationClip : ScriptableObject
     {
         public bool Loop;
-        public int SampleRate;
+        [Min(1)] public int SampleRate = 12;
         public Frame[] Frames;
 
         [Serializable]

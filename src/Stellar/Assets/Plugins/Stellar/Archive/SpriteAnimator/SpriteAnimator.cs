@@ -52,12 +52,12 @@ public class SpriteAnimator : MonoBehaviour
         {
             _timeSinceLastFrame += Time.deltaTime;
             float frameDuration = 1f / state.Clip.SampleRate;
-            var currentFrame = state.Clip.Frames[_currentFrameIndex];
-
+            
             if (_timeSinceLastFrame >= frameDuration)
             {
                 _timeSinceLastFrame -= frameDuration;
                 _currentFrameIndex = (_currentFrameIndex + 1) % state.Clip.Frames.Length;
+                Debug.Log($"OnFrame {_currentFrameIndex}");
                 ApplyFrameProperties(state.Clip.Frames[_currentFrameIndex]);
             }
         }
