@@ -21,16 +21,11 @@ public class DemoTest : MonoBehaviour
     private void Awake()
     {
         _classStateMachine = new ClassStateMachine<DemoTest>(this, new IdleState());
-
-#if true
-        GUIUtility.systemCopyBuffer = _classStateMachine.ToString();
-#endif
     }
 
     
     void Update()
     {
-        _classStateMachine.Update();
 
         var input  = Vector2.right * Input.GetAxisRaw("Horizontal") + Vector2.up * Input.GetAxisRaw("Vertical");
         
@@ -38,8 +33,8 @@ public class DemoTest : MonoBehaviour
         {
             if (_input != input)
             {
-                _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
-                _classStateMachine.Enter<MoveState>();
+                _weakReferences.Add(_classStateMachine?.GetWeakReferenceCurrentState());
+                _classStateMachine?.Enter<MoveState>();
                 _input = input;
             }
         }
@@ -47,10 +42,17 @@ public class DemoTest : MonoBehaviour
         {
             if (_input != input)
             {
-                _weakReferences.Add(_classStateMachine.GetWeakReferenceCurrentState());
-                _classStateMachine.Enter<IdleState>();
+                _weakReferences.Add(_classStateMachine?.GetWeakReferenceCurrentState());
+                _classStateMachine?.Enter<IdleState>();
                 _input = input;
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            _weakReferences.Add(_classStateMachine?.GetWeakReferenceCurrentState());
+            _weakReferences.Add(new WeakReference(_classStateMachine));
+            _classStateMachine = null;
         }
 
         if (Input.GetKeyDown(KeyCode.C))
@@ -74,5 +76,7 @@ public class DemoTest : MonoBehaviour
             Debug.Log($"({collectCount}/{_weakReferences.Count})");
             _collectCount = collectCount;
         }
+        
+        _classStateMachine?.Update();
     }
 }

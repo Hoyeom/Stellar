@@ -11,6 +11,7 @@ namespace Plugins.Stellar.Runtime
         {
             _entity = entity;
             _currentState = classState;
+            _currentState.EnterState(_entity);
         }
 
         public void Enter<TState>() where TState : IClassState<TEntity>, new()
@@ -46,73 +47,5 @@ namespace Plugins.Stellar.Runtime
         {
             return new WeakReference(_currentState);
         }
-        
-        
-        #region Stateless
-#if false
-
-        public class ClassStateMachineConfigure<TEntity, TTrigger>
-        {
-            private readonly Dictionary<TTrigger, Type> _typeMap;
-
-
-            public ClassStateMachineConfigure()
-            {
-                _typeMap = new Dictionary<TTrigger, Type>();
-            }
-
-            public ClassStateMachineConfigure<TEntity, TTrigger> Permit<T>(TTrigger trigger) where T : IClassState<TEntity>
-            {
-                var type = typeof(T);
-                _typeMap[trigger] = type;
-                return this;
-            }
-
-            public bool CanFire(TTrigger trigger)
-            {
-                return _typeMap.ContainsKey(trigger);
-            }
-
-            [CanBeNull]
-            public Type Fire(TTrigger trigger)
-            {
-                return _typeMap[trigger];
-            }
-        }
-        
-        private readonly Dictionary<Type, ClassStateMachineConfigure<TEntity, TTrigger>> _configureMap = new();
-
-        public ClassStateMachineConfigure<TEntity, TTrigger> Configure<T>() where T : IClassState<TEntity>
-        {
-            var type = typeof(T);
-            
-            if (!_configureMap.TryGetValue(type, out var configure))
-            {
-                _configureMap[type] = new ClassStateMachineConfigure<TEntity, TTrigger>();
-            }
-
-            return _configureMap[type];
-        }
-
-        public bool CanFire(TTrigger trigger)
-        {
-            var type = _currentState.GetType();
-            
-            if (_configureMap.TryGetValue(type, out var configure))
-            {
-                return configure.CanFire(trigger);
-            }
-            
-            return false;
-        }
-
-        public void Fire(TTrigger trigger)
-        {
-            var currentType = _currentState.GetType();
-            var type = _configureMap[currentType].Fire(trigger);
-            Enter(type);
-        }
-#endif
-        #endregion
     }
 }
