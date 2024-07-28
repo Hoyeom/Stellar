@@ -27,9 +27,9 @@ namespace Plugins.Stellar.Runtime
         }
 
 
-        public virtual void Enter() { }
-        public virtual void Exit() { }
-        public virtual void Update() { }
-        public virtual void FixedUpdate() { }
+        protected virtual void Enter() { }
+        protected virtual void Exit() { }
+        protected virtual void Update() { }
+        protected virtual void FixedUpdate() { }
     }
 }
