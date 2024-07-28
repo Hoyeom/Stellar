@@ -3,7 +3,7 @@ using Plugins.Stellar.Runtime;
 
 namespace Demo
 {
-    public class TestWas : WebApplicationServer
+    public class TestWas : WAS
     {
         public TestWas(string baseUrl) : base(baseUrl)
         {

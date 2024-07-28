@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 namespace Plugins.Stellar.Runtime
 {
-    public abstract class WebApplicationServer
+    public abstract class WAS
     {
         private readonly string _baseUrl;
         private string _accessToken;
@@ -15,7 +15,7 @@ namespace Plugins.Stellar.Runtime
         private Queue<Request> _requestQueue;
         private long _createId;
         
-        public WebApplicationServer(string baseUrl)
+        protected WAS(string baseUrl)
         {
             _baseUrl = baseUrl;
             _requestQueue = new Queue<Request>();
