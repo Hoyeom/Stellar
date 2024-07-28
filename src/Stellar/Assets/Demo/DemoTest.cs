@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Demo;
 using Plugins.Stellar.Runtime;
+using Stellar.Runtime.Extension;
 using UnityEngine;
 
 public class DemoTest : MonoBehaviour
@@ -23,7 +25,26 @@ public class DemoTest : MonoBehaviour
         _classStateMachine = new ClassStateMachine<DemoTest>(this, new IdleState());
     }
 
-    
+
+    private async UniTaskVoid Start()
+    {
+        TestWas webApplicationServer = new TestWas("localhost:8000");
+        webApplicationServer.SetSecretKey("mac");
+        
+        while (true)
+        {
+
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                var response = await webApplicationServer.GetHello();
+                Debug.Log(response.Data);
+            }
+            
+            await UniTask.Yield(PlayerLoopTiming.Update);
+        }
+
+    }
+
     void Update()
     {
 

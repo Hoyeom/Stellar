@@ -11,9 +11,4 @@ namespace Stellar.Runtime.Extension
             return StringHelper.ToColorString(text, color);
         }
     }
-
-    public static class VectorExtensions
-    {
-        
-    }
 }
