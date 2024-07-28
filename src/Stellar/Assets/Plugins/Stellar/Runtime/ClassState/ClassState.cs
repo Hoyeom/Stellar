@@ -1,6 +1,3 @@
-using System;
-using UnityEngine;
-
 namespace Plugins.Stellar.Runtime
 {
     public abstract class ClassState<TEntity> : IClassState<TEntity>

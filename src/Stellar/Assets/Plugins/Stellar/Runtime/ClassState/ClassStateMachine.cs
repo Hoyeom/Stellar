@@ -1,5 +1,3 @@
-using System;
-
 namespace Plugins.Stellar.Runtime
 {
     public class ClassStateMachine<TEntity>
@@ -21,15 +19,15 @@ namespace Plugins.Stellar.Runtime
             _currentState.EnterState(_entity);
         }
 
-        private void Enter(Type type)
+        private void Enter(System.Type type)
         {
             if (!typeof(IClassState<TEntity>).IsAssignableFrom(type))
             {
-                throw new ArgumentException($"{type.Name} does not implement IClassState<{typeof(TEntity).Name}>");
+                throw new System.ArgumentException($"{type.Name} does not implement IClassState<{typeof(TEntity).Name}>");
             }
 
             _currentState?.ExitState();
-            _currentState = (IClassState<TEntity>)Activator.CreateInstance(type);
+            _currentState = (IClassState<TEntity>)System.Activator.CreateInstance(type);
             _currentState.EnterState(_entity);
         }
 
@@ -43,9 +41,9 @@ namespace Plugins.Stellar.Runtime
             _currentState.FixedUpdateState();
         }
 
-        public WeakReference GetWeakReferenceCurrentState()
+        public System.WeakReference GetWeakReferenceCurrentState()
         {
-            return new WeakReference(_currentState);
+            return new System.WeakReference(_currentState);
         }
     }
 }
