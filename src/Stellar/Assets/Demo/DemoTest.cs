@@ -6,6 +6,7 @@ using Demo;
 using Plugins.Stellar.Runtime;
 using Stellar.Runtime.Extension;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class DemoTest : MonoBehaviour
 {
@@ -28,21 +29,55 @@ public class DemoTest : MonoBehaviour
 
     private async UniTaskVoid Start()
     {
-        TestWas webApplicationServer = new TestWas("localhost:8000");
-        webApplicationServer.SetSecretKey("mac");
+        ViewTree<string> tree = new ViewTree<string>("Root");
+
+        ViewTreeNode<string> child1 = new ViewTreeNode<string>("Child 1");
+        ViewTreeNode<string> child2 = new ViewTreeNode<string>("Child 2");
+
+        tree.Root.AddChild(child1);
+        tree.Root.AddChild(child2);
+
+        ViewTreeNode<string> grandchild1 = new ViewTreeNode<string>("Grandchild 1");
+        ViewTreeNode<string> grandchild2 = new ViewTreeNode<string>("Grandchild 2");
+
+        child1.AddChild(grandchild1);
+        child1.AddChild(grandchild2);
+
+        // 트리 구조 출력
+        PrintTree(tree.Root, "");
+
+        return;
         
+        bool isOpen = false;
+
         while (true)
         {
-
-            if (Input.GetKeyDown(KeyCode.P))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
-                var response = await webApplicationServer.GetHello();
-                Debug.Log(response.Data);
-            }
-            
-            await UniTask.Yield(PlayerLoopTiming.Update);
+                if (isOpen)
+                {
+                    // viewNav.CloseAsync<ViewTest>().Forget();
+                }
+                else
+                {
+                    // viewNav.OpenAsync<ViewTest, ViewModel>(new ViewModel()).Forget();
+                }
+
+                isOpen = !isOpen;
+            }            
+            await UniTask.Yield();
         }
 
+    }
+    
+    void PrintTree<T>(ViewTreeNode<T> node, string indent)
+    {
+        Debug.Log(indent + node.Value);
+
+        foreach (var child in node.Children)
+        {
+            PrintTree(child, indent + "  ");
+        }
     }
 
     void Update()

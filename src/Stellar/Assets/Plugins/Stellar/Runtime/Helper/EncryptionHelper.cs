@@ -9,13 +9,12 @@ namespace Stellar.Runtime.Helper
         {
             byte[] keyBytes = System.Text.Encoding.UTF8.GetBytes(secretKey);
             byte[] messageBytes = System.Text.Encoding.UTF8.GetBytes(message);
-
+            
             using var hmacSha256 = new HMACSHA256(keyBytes);
             byte[] hashBytes = hmacSha256.ComputeHash(messageBytes);
             string computedHmac = Convert.ToBase64String(hashBytes);
-
+            
             return computedHmac;
         }
-
     }
 }
